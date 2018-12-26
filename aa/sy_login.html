@@ -1,0 +1,220 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>摄影发表管理系统用户登录</title>
+<link href="./摄影/login.css" rel="stylesheet" rev="stylesheet" type="text/css" media="all">
+<script type="text/javascript" src="./摄影/jQuery1.7.js"></script>
+<script type="text/javascript" src="./摄影/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="./摄影/jquery1.42.min.js"></script>
+<script type="text/javascript" src="./摄影/jquery.SuperSlide.js"></script>
+<script type="text/javascript" src="./摄影/Validform_v5.3.2_min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	var $tab_li = $('#tab ul li');
+	$tab_li.hover(function(){
+		$(this).addClass('selected').siblings().removeClass('selected');
+		var index = $tab_li.index(this);
+		$('div.tab_box > div').eq(index).show().siblings().hide();
+	});	
+});
+</script>
+<script src="./js/jquery-1.12.4.js"></script>
+<script>
+$(function()
+{/*学生登录信息验证*/
+	$("#btn").click(function()
+	{
+		var gl_name=$("#gl_name").val();
+		var gl_pass=$("#gl_pass").val();
+		var cod   =$("#cod").val();
+		//alert(cod);
+		var reg=/^[0-9|a-z|A-z]{6,12}$/;
+		//alert(gl_name);
+		if(gl_name.length<1)
+		{
+			alert('帐号不能为空');
+			$("#gl_name").focus();
+			return false;
+		}
+		if(gl_name.length<3 || gl_name.length>11)
+		{
+			alert('帐号长度须在3-11位字符之间');
+			$("#gl_name").val('');
+			$("#gl_name").focus();
+			return false;
+		}
+		if(gl_pass.length<1)
+		{
+			alert('密码不能为空');
+			$("#gl_pass").focus();
+			return false;
+		}
+		if(!reg.test(gl_pass))
+		{
+			alert('密码不合法');
+			$("#gl_pass").val('');
+			$("#gl_pass").focus();
+			return false;
+		}
+		if(cod.length<1)
+		{
+			alert('验证码不能为空！');
+			$("#cod").focus();
+			return false;
+		}
+		location.href='sy_login1.php?gl_name='+gl_name+'&gl_pass='+gl_pass+'&auths='+cod;
+	})
+	/*摄影师登录信息验证*/
+	$("#btn2").click(function()
+	{
+		var sy_name=$("#sy_name").val();
+		var sy_pass=$("#sy_pass").val();
+		var code=$("#code").val();
+		var reg=/^[0-9|a-z|A-z]{6,12}$/;
+		//alert(gl_name);
+		if(sy_name.length<1)
+		{
+			alert('帐号不能为空');
+			$("#sy_name").focus();
+			return false;
+		}
+		if(sy_name.length<3 || sy_name.length>11)
+		{
+			alert('帐号长度须在3-11位字符之间');
+			$("#sy_name").val('');
+			$("#sy_name").focus();
+			return false;
+		}
+		if(sy_pass.length<1)
+		{
+			alert('密码不能为空');
+			$("#sy_pass").focus();
+			return false;
+		}
+		if(!reg.test(sy_pass))
+		{
+			alert('密码不合法');
+			$("#sy_pass").val('');
+			$("#sy_pass").focus();
+			return false;
+		}
+		if(code.length<1)
+		{
+			alert('验证码不能为空！');
+			$("#code").focus();
+			return false;
+		}
+	})
+	$(".screenbg ul li").each(function(){
+		$(this).css("opacity","0");
+	});
+	$(".screenbg ul li:first").css("opacity","1");
+	var index = 0;
+	var t;
+	var li = $(".screenbg ul li");	
+	var number = li.size();
+	function change(index){
+		li.css("visibility","visible");
+		li.eq(index).siblings().animate({opacity:0},3000);
+		li.eq(index).animate({opacity:1},3000);
+	}
+	function show(){
+		index = index + 1;
+		if(index<=number-1){
+			change(index);
+		}else{
+			index = 0;
+			change(index);
+		}
+	}
+	t = setInterval(show,1000);
+	//根据窗口宽度生成图片宽度
+	var width = $(window).width();
+	$(".screenbg ul img").css("width",width+"px");
+})
+function changes()
+{
+	$("#auth").attr("src","code.php?"+Math.random());
+}
+function changes2()
+{
+	$("#auth2").attr("src","code.php?"+Math.random());
+}
+</script>
+</head>
+<body>
+<div id="tab">
+  <ul class="tab_menu">
+    <li class="selected">管理员登录</li>
+    <li class="">摄影师登录</li>
+  </ul>
+  <div class="tab_box"> 
+    <!-- 管理员登录开始 -->
+    <div style="display: block;">
+      <div class="stu_error_box Validform_checktip Validform_wrong"></div>
+      <form action="sy_login1.php" method="get" class="stu_login_error" >
+        <div id="username">
+          <label>帐&nbsp;&nbsp;&nbsp;号：</label>
+          <input type="text" id="gl_name" name="gl_name" nullmsg="学号不能为空！" datatype="s6-18" errormsg="学号范围在6~18个字符之间！" sucmsg="学号验证通过！">
+          <!--ajaxurl="demo/valid.jsp"--> 
+        </div>
+        <div id="password">
+          <label>密&nbsp;&nbsp;&nbsp;码：</label>
+          <input type="password" id="gl_pass" name="gl_pass" nullmsg="密码不能为空！" datatype="*6-16" errormsg="密码范围在6~16位之间！" sucmsg="密码验证通过！" class="">
+        </div>
+        <div id="code">
+          <label>验证码：</label>
+          <input type="text" id="cod" name="auths">
+          <img src='code.php' width='80px' height='50' id='auth'><br><br>
+	  <a href='javascript:;' onclick='changes();'>换一张</a>
+	</div>
+        <div id="remember">
+          
+        </div>
+        <div id="login">
+          <button type="submit" id='btn'>登录</button>
+        </div>
+      </form>
+    </div>
+   <!-- 管理员登录结束-->
+   <!-- 摄影师登录开始-->
+    <div class="hide" style="display: none;">
+     <div class="tea_error_box"></div>
+      <form action="sy_login2.php" method="post" class="tea_login_error">
+        <div id="username">
+          <label>帐&nbsp;&nbsp;&nbsp;号：</label>
+          <input type="text" id="sy_name" name="sy_name"  nullmsg="教工号不能为空！" datatype="s6-18" errormsg="教工号范围在6~18个字符之间！" sucmsg="教工号验证通过！">
+          <!--ajaxurl="demo/valid.jsp"--> 
+        </div>
+        <div id="password">
+          <label>密&nbsp;&nbsp;&nbsp;码：</label>
+          <input type="password" id="sy_pass" name="sy_pass"  nullmsg="密码不能为空！" datatype="*6-16" errormsg="密码范围在6~16位之间！" sucmsg="密码验证通过！">
+        </div>
+        <div id="code">
+          <label>验证码：</label>
+          <input type="text" id="code" name="code"  nullmsg="验证码不能为空！" datatype="*4-4" errormsg="验证码有4位数！" sucmsg="验证码验证通过！">
+          <img src='code.php' width='80px' height='50' id='auth2'><br><br>
+	  <a href='javascript:;' onclick='changes2();'>换一张</a>
+	</div>
+        <div id="remember">
+          
+        </div>
+        <div id="login">
+          <button type="submit" id='btn2'>登录</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="bottom">©2018 Lin <a href="javascript:;" target="_blank">关于</a> <span>京ICP证5X2H1Z号</span><img width="13" height="16" src="./摄影/copy_rignt_24.png"></div>
+<div class="screenbg">
+  <ul>
+    <li style="opacity: 0; visibility: visible;"><a href="javascript:;"><img src="./摄影/0.jpg" style="width: 1393px;"></a></li>
+    <li style="opacity: 0; visibility: visible;"><a href="javascript:;"><img src="./摄影/1.jpg" style="width: 1393px;"></a></li>
+    <li style="opacity: 1; visibility: visible;"><a href="javascript:;"><img src="./摄影/2.jpg" style="width: 1393px;"></a></li>
+  </ul>
+</div>
+
+
+</body></html>
