@@ -64,7 +64,7 @@ if(!empty($_GET))
 			//echo "登录成功<br>";
 			$_SESSION['gl_name']=$gl_name;
 			echo "<script>";
-			echo "alert('登录成功');";
+			echo "alert('登录成功！！');";
 			echo "location.href='sy.php?gl_name=".$gl_name."';";
 			echo "</script>";
 		 }
