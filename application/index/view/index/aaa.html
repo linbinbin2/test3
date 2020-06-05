@@ -1,0 +1,21 @@
+<html>
+    <head></head>
+    <body>
+        <?php
+            require("../vendor/autoload.php");
+            use Qiniu\Auth;
+            $bucket="rizhichu";
+            $accesskey="ozd0YFoE1J0htvqeB9PDsv4NsuH2AZN1NsX1Esz9";
+            $secretkey="J8Z9LPT6snmoUL3T_IoQKOnZSfaRa3QZUkjCPy2m";
+            $auth=new Auth($accesskey,$secretkey);
+            $uptoken=$auth->uploadToken($bucket);
+            echo $uptoken;
+        ?>
+ 
+        <form method="post" action="http://upload.qiniup.com" enctype="multipart/form-data">
+           <input name="token" type="hidden" value="<?php echo $uptoken; ?>">
+           <input name="file" type="file">
+           <input type="submit" value="上传">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+  <meta name="author" content="Vincent Garreau" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" media="screen" href="/static/admin/login/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/login/css/reset.css"/>
+  <link rel="stylesheet" href="/css/Jingle.css">
+</head>
+<body>
+<div id="section_container">
+  <header style='position:fixed'>
+    <nav class="left" style="float:left;padding-top:9px">
+      <a href='/'><img src='/static/admin/login/img/return.png' width='24' height='24'></a>
+  </nav>
+    <nav style="text-align: center;width:100%;">交易网
+  </header>
+</div>
+<form action="" method="post">
+<!-- <div id="particles-js"> -->
+        <!-- <div class="login" style='height:320px;width:400px;padding-top:60px'> -->
+        <div style='margin-top: 100px;'>  
+            <form action="subadd" method="post" enctype="multipart/form-data"></form>
+            <div class="login-center clearfix">
+                <div class="login-center-img"><img src="/static/admin/login/img/name.png"/></div>
+                <div class="login-center-input">
+                    <input type="text" name="name" id='name' value="" placeholder="请输入您的用户名" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的用户名'"/>
+                    <div class="login-center-input-text">用户名</div>
+                </div>
+            </div>
+            <div class="login-center clearfix">
+                <div class="login-center-img"><img src="/static/admin/login/img/password.png"/></div>
+                <div class="login-center-input">
+                    <input type="password" name="password" id="password" value="" placeholder="请输入您的密码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的密码'"/>
+                    <div class="login-center-input-text">密码</div>
+                </div>
+            </div>
+            <button type="button" onclick='login();' class="login-button" style='width:75%;background-color: #c00;'>
+                登录
+            </button>
+            <div style='float:left;border:0px solid red;margin-left:5px;font-size:12px;width:120px;height:40px;margin-top:30px;color:rgb(230, 92, 92)'>
+                ! 没有账号请先注册
+            </div>
+            <div onclick='note();' style='margin-left:80%;border:0px solid red;font-size:12px;width:50px;height:40px;margin-top:30px;color:rgb(230, 92, 92)'>
+              短信验证
+            </div>
+            <div onclick='register();' style='cursor:pointer;color:#c00;border:0px solid red;width:80px;height:40px;margin-top:30px;float:right;font-size:15px;'>
+               注册
+            </div>
+            </form>
+        </div>
+        <div class="sk-rotating-plane"></div>
+<!-- </div> -->
+</form>
+
+<!-- scripts -->
+<script type="text/javascript" src="http://common.gdjshd.com/ydmb_ty/js/Adaptive.js"></script>
+<script src="/static/admin/login/js/particles.min.js"></script>
+<script src="/static/admin/login/js/app.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    function note()
+    {
+      location.replace("{:url('index/note')}");
+    }
+    function login()
+    {
+      // {:url('index/index/is_login')};
+      var name = $("#name").val();  
+        var password = $("#password").val();
+        // console.log(password);die;
+        // console.log(formData);
+        //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法  
+        $.ajax({  
+            type:"post",  
+            url:"{:url('index/is_login')}",  
+            data: {
+                'name': name,
+                'password':password
+            },
+            async:true,
+            success:function(res){
+              if(res.code == 1)
+              {
+                alert('请填写完整数据！');
+              }
+              if(res.code == 2)
+              {
+                alert('用户不存在！');
+              }
+              if(res.code == 3)
+              {
+                location.replace("{:url('index/index')}");
+              }
+              if(res.code == 4)
+              {
+                alert('密码不正确！');
+              }
+                
+            }
+        });  
+    }
+    function register()
+    {
+        location.replace("register");
+    }
+    // function hasClass(elem, cls) {
+    //   cls = cls || '';
+    //   if (cls.replace(/\s/g, '').length == 0) return false; //当cls没有参数时，返回false
+    //   return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
+    // }
+     
+    // function addClass(ele, cls) {
+    //   if (!hasClass(ele, cls)) {
+    //     ele.className = ele.className == '' ? cls : ele.className + ' ' + cls;
+    //   }
+    // }
+     
+    // function removeClass(ele, cls) {
+    //   if (hasClass(ele, cls)) {
+    //     var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
+    //     while (newClass.indexOf(' ' + cls + ' ') >= 0) {
+    //       newClass = newClass.replace(' ' + cls + ' ', ' ');
+    //     }
+    //     ele.className = newClass.replace(/^\s+|\s+$/g, '');
+    //   }
+    // }
+    //     document.querySelector(".login-button").onclick = function(){
+    //             addClass(document.querySelector(".login"), "active")
+    //             setTimeout(function(){
+    //                 addClass(document.querySelector(".sk-rotating-plane"), "active")
+    //                 document.querySelector(".login").style.display = "none"
+    //             },800)
+              
+    //     }
+</script>
+<style>
+
+</style>
+</body>
+</html>

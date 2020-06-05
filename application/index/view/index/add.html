@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>交易平台</title>
+    <meta name="keywords" content="交易平台 ">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+    <!-- 移动端web自适应 -->
+    <script type="text/javascript" src="http://common.gdjshd.com/ydmb_ty/js/Adaptive.js"></script>
+    <meta name="description" content="交易平台">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="/css/Jingle.css">
+    <style>
+        table{
+            width:95%;
+        }
+        table tr{
+            width:100%;
+            
+        }
+        #table_left{
+            width:35%;
+            line-height:0.6rem;
+            font-size:14px;
+            float: left;
+            text-align:right;
+           
+        }
+        #table_right{
+            width:60%;
+            line-height:0.5rem;
+            font-size:14px;
+            float: right;
+            text-align:left;
+           
+        }
+        table tr select{
+            width:32%;
+            background-color:#fff;
+            height:35px;
+            font-size:12px;
+        }
+        table tr input{
+            font-size:12px;
+        }
+    </style>
+</head>
+<body>
+<!-- <div id="section_container"> -->
+    <div id="section_container">
+        <header style='position:fixed'>
+          <nav class="left" style="float:left;padding-top:9px">
+            <a href='/'><img src='/static/admin/login/img/return.png' width='24' height='24'></a>
+        </nav>
+          <nav style="text-align: center;width:100%;">发布中...
+        </header>
+      </div>
+    <!-- <section id="index_section" data-btn="index" title="交易网" class="active">
+ <div id="fix_js" class="fix_css">
+    <header>
+        <nav class="left" style="float:left;padding-top:9px">
+            <a href='/'><img src='/static/admin/login/img/return.png' width='24' height='24'></a>
+        </nav>
+        <nav style="text-align: center;width:100%;">发布中...</nav>
+        <nav class="right" style="float:right;">
+           
+        </nav>
+    </header> -->
+<!-- </div> -->
+        <!-- <div class="lunbo" style="width:100%;height:30px;"></div>
+        </div> -->
+        <article id="article_ind" class="active" style='margin-top:80px'>
+                <ul class="list list-text-single">
+                <form id='formid' action="subadd" method="post" enctype="multipart/form-data">
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请输入名称：
+                        </div>
+                        <div class='add_div_bottom'>
+                            <input style='height:38px' type="text" name="username" placeholder="请输入您的名称" onfocus="clearContent(event)"/>
+                        </div>
+                    </div>
+                    <!-- <div class='add_div'>
+                        <div class='add_div_top'>
+                            请上传头像：
+                        </div>
+                        <div style="border:0px solid red;margin-left:36%;font-size:12px;width:62%;padding-top:6px;">
+                            <input type="file" id="topimg" name='topimg'>
+                        </div>
+                    </div> -->
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请选择类型：
+                        </div>
+                        <div class='add_div_bottom'>
+                            <select style='width:50%;height:38px;background-color:#FFF' name="typea" id="typea">
+                                <option value="">请选择</option>
+                                    {volist name="typea" id="vo"}
+                                    <option value="{$vo['id']}">{$vo['ttype']}</option>
+                                    {/volist}
+                            </select>
+                            <select style='width:49%;height:38px;background-color:#FFF' name="typeb" id="typeb">
+                                    <option value="">请选择</option>
+                            </select> 
+                        </div>
+                    </div>
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请输入简介：
+                        </div>
+                        <div class='add_div_bottom'>
+                            <textarea placeholder='请输入简介' name="contents"></textarea>
+                        </div>
+                    </div>
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请上传图片：
+                        </div>
+                        <div style="border:0px solid red;margin-left:36%;font-size:12px;width:62%;padding-top:6px;">
+                            <input type="file" name='images'>
+                        </div>
+                    </div>
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请选择身份：
+                        </div>
+                        <!-- <div class='add_div_bottom' style='font-size:14px;margin-top:5px;'> -->
+                            <!-- <select style='width:48%;height:38px;background-color:#FFF' name="status">
+                                <option value='1'>出售者</option>
+                                <option value='2'>购买者</option>
+                            </select> -->
+
+                            <input type="radio" name="status" style='float:left;margin-top: 13px;' value="1" checked="true" />
+                            <div style='border:0px solid red;margin-top: 12px;width:35px;height:14px;font-size:12px;float:left'>出售者</div>
+                            <input type="radio" name="status" style='float:left;margin-top: 13px;margin-left:8px;' value="2" />
+                            <div style='border:0px solid red;margin-top: 12px;width:35px;height:14px;font-size:12px;float:left'>购买者</div>
+                            <!-- <input type="radio" name="status" value="2" />购买者 -->
+                            
+                        <!-- </div> -->
+                    </div>
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请选择地址：
+                        </div>
+                        <div class='add_div_bottom'>
+                            <select style='width:33%;height:38px;background-color:#FFF' name="sheng" id="sheng">
+                                <option value="">请选择省</option>
+                                {volist name="sheng" id="vo"}
+                                <option value="{$vo['district_id']}">{$vo['district']}</option>
+                                {/volist}
+                            </select>
+                            <select style='width:33%;height:38px;background-color:#FFF' name="shi" id="shi">
+                                <option value="">请选择市</option>
+                            </select>                    
+                            <select style='width:32%;height:38px;background-color:#FFF' name="qu" id="qu">
+                                <option value="">请选择县</option>
+                            </select>
+                            
+                        </div>
+                    </div>
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请输手机号：
+                        </div>
+                        <div class='add_div_bottom'>
+                            <input type="text" id="userphone" name="userphone" placeholder="请输入手机号" style="width:50%;height:38px" onfocus="clearContent(event)"/>
+                            <input id="yanzheng" onclick="getCode(this)" style='background-color: #f44336;padding:0px;height:32px;width:84px;border-radius: 5px;border: none;color: white;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;' type="button" value="获取验证码" style="margin-left:0.1rem;">
+                            <button id="J_resetCode" style="display:none;background-color: #f44336;padding:0px;height:32px;width:84px;border-radius: 5px;border: none;color: white;text-align: center;text-decoration: none;font-size: 14px;">
+                                <span id="J_second">60</span>秒
+                            </button>
+                            <!-- <input id="yanzheng" style='background-color: #f44336;height:32px;width:80px;border-radius: 5px;border: none;color: white;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;' type="button" value="获取验证码" style="margin-left:0.1rem;"> -->
+                            <!-- <input style='background-color: #f44336;height:32px;width:80px;border-radius: 5px;border: none;color: white;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;' id="yanzheng" type="button" class="obtain generate_code" value=" 获取验证码" onclick="settime(this);">  -->
+                        </div>
+                    </div>
+                    <div class='add_div'>
+                        <div class='add_div_top'>
+                            请输验证码：
+                        </div>
+                        <div class='add_div_bottom'>
+                            <input style='height:38px' type="text" name="phonecheck" placeholder="请输入您的验证码" onfocus="clearContent(event)"/>
+                        </div>
+                    </div>
+                    <div style='border:0px solid red;text-align:center;margin-top:16px'>
+                        <input type="button" onclick='submita();' value="发布" style="background-color: #f44336;border-radius: 5px;border: none;color: white;padding: 5px 20px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;">&nbsp;&nbsp;&nbsp;
+                        <input type="reset" value="取消" style="background-color: #f44336;border-radius: 5px;border: none;color: white;padding: 5px 20px;text-align: center;text-decoration: none;display: inline-block;font-size: 16px;">
+                    </div>
+
+                </form>
+                </ul>
+            
+            </div>
+            </div>
+        </article>
+    <!-- </section> -->
+<!-- </div>
+</div> -->
+<!-- <a href="#" id="gotop"></a> -->
+<style>
+    .add_div
+    {
+        border:0px solid red;
+        width:90%;
+        height:40px;
+        margin-bottom: 8px;
+    }
+    .add_div_top
+    {
+        margin-left:8%;
+        border:0px solid red;
+        width:28%;
+        height:40px;
+        padding-top:11px;
+        font-size:14px;
+        float:left;
+    }
+    .add_div_bottom
+    {
+        border:0px solid red;
+        margin-left:36%;
+        font-size:12px;
+        width:62%;
+    }
+</style>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<!-- custom -->
+<script type="text/javascript">
+function submita(){
+    var data = new FormData(document.getElementById("formid"));
+    console.log(data);
+    $.ajax({
+                type: 'post',
+                url: 'subadd',
+                dataType: 'json',
+                data: data,
+                contentType: false, //不设置内容类型
+                processData: false, //不处理数据
+                success: function (res) {
+                    if(res.code == '1001')
+                    {
+                        alert('请选择图片');
+                    }else{
+                        if(res.code=='1000')
+                        {
+                            alert('发布成功');
+                            location.replace("{:url('index/index')}");
+                        }else{
+                            alert(res.msg);
+                        }
+                    }
+                   
+                    
+                }
+ 
+            });
+}
+    //var countdown=60;  
+    // function settime(val) {  
+    //     if(moblie == '')
+    //     {
+    //         alert('请输入手机号！');
+    //     }else{
+    //         
+    //         if (countdown == 0) {  
+    //             val.removeAttribute("disabled");  
+    //             val.value="获取验证码";  
+    //             countdown = 60;  
+    //             return false;  
+    //         } else {  
+    //             val.setAttribute("disabled", true);  
+    //             val.value="重新发送(" + countdown + ")";  
+    //             countdown--;  
+    //         }  
+    //         setTimeout(function() {  
+    //             settime(val);  
+    //         },1000);  
+    //     }
+    // }  
+    //点击事件
+        function clearContent(event) {
+        event.target.value=""
+        }
+
+    /*获取验证码*/
+    var isPhone = 1;
+    function getCode(e){
+      checkPhone(); //验证手机号码
+      // $('#yanzheng').css({ "display": "none" });
+      if(isPhone){
+        $('#yanzheng').css({ "display": "none" });
+        var userphone = $("#userphone").val();
+        $.ajax({
+              type: "post",
+              url: "Verify",
+              data: {
+                  'id': userphone
+              }
+        })
+        resetCode(); //倒计时
+      }else{
+        $('#userphone').focus();
+      }
+      
+    }
+    //验证手机号码
+    function checkPhone(){
+      var userphone = $('#userphone').val();
+      var pattern = /^1[0-9]{10}$/;
+      isPhone = 1;
+      if(userphone == '') {
+        alert('请输入手机号码');
+        isPhone = 0;
+        return;
+      }
+      if(!pattern.test(userphone)){
+        alert('请输入正确的手机号码');
+        isPhone = 0;
+        return;
+      }
+    }
+    //倒计时
+    function resetCode(){
+      $('#J_getCode').hide();
+      $('#J_second').html('60');
+      $('#J_resetCode').show();
+      var second = 60;
+      var timer = null;
+      timer = setInterval(function(){
+        second -= 1;
+        if(second >0 ){
+          $('#J_second').html(second);
+        }else{
+          clearInterval(timer);
+          $('#J_getCode').show();
+          $('#J_resetCode').hide();
+          $('#yanzheng').css({ "display": "inline" });
+        }
+      },1000);
+    }
+    //验证
+    // $("#yanzheng").click(function(){
+    //    // alert('aaa');
+    //    var moblie = $("#userphone").val();
+    //    $.ajax({
+    //         type: "post",
+    //         url: "Verify",
+    //         data: {
+    //             'id': moblie
+    //         }
+    //    })
+    // })
+
+    //地区联动
+    $('#sheng').change(function(id){
+         var aa = $('#sheng').val();
+         $.ajax({
+            type: "post",
+            url: "checkregion",
+            data: {
+                    'id': aa
+                },
+                async:true,
+                success:function(r){
+                    //alert(r);
+                    $("#shi").html(r);
+                }
+         })
+     
+    })
+    $('#shi').change(function(){
+        var shi = $("#shi").val();
+        $.ajax({
+            type: "post",
+            url: "checkregion",
+            data: {
+                'id': shi
+            },
+            async:true,
+            success:function(r){
+                $("#qu").html(r);
+            }
+        })
+    })
+    
+
+    //类型联动
+    $('#typea').change(function(id){
+         var typea = $('#typea').val();
+         $.ajax({
+            type: "post",
+            url: "checktype",
+            data: {
+                    'id': typea
+                },
+                async:true,
+                success:function(r){
+
+                    $("#typeb").html(r);
+                }
+         })
+     
+    })
+
+</script>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="description" content="particles.js is a lightweight JavaScript library for creating particles.">
+  <meta name="author" content="Vincent Garreau" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" media="screen" href="/static/admin/login/css/style.css">
+  <link rel="stylesheet" type="text/css" href="/static/admin/login/css/reset.css"/>
+  <link rel="stylesheet" href="/css/Jingle.css">
+</head>
+<body>
+<div id="section_container">
+  <header style='position:fixed'>
+    <nav class="left" style="float:left;padding-top:9px">
+      <a href='/'><img src='/static/admin/login/img/return.png' width='24' height='24'></a>
+  </nav>
+    <nav style="text-align: center;width:100%;">交易网
+  </header>
+</div>
+<form action="" method="post">
+<!-- <div id="particles-js"> -->
+        <!-- <div class="login" style='height:320px;width:400px;padding-top:60px'> -->
+        <div style='margin-top: 100px;'>  
+            <form action="subadd" method="post" enctype="multipart/form-data"></form>
+            <div class="login-center clearfix" >
+              <div class="login-center-img"><img src="/static/admin/login/img/phone.png"/></div>
+              <div class="login-center-input">
+                  <input type="text" id='phone' style='width:60%' name="phone" value="" placeholder="请输入您的手机号" onfocus="this.placeholder=''" onblur="this.placeholder='请输入您的手机号'"/>
+                  <input id="yanzheng" onclick="getCode(this)" style='background-color: #f44336;padding:0px;height:32px;width:84px;border-radius: 5px;border: none;color: white;text-align: center;text-decoration: none;display: inline-block;font-size: 14px;' type="button" value="获取验证码" style="margin-left:0.1rem;">
+                  <button id="J_resetCode" style="display:none;background-color: #f44336;padding:0px;height:32px;width:84px;border-radius: 5px;border: none;color: white;text-align: center;text-decoration: none;font-size: 14px;">
+                    <span id="J_second">60</span>秒
+                  </button>
+                </div>
+          </div>
+          <div class="login-center clearfix" >
+              <div class="login-center-img"><img src="/static/admin/login/img/code.png"/></div>
+              <div class="login-center-input">
+                  <input type="text" id='code' name="code" value="" placeholder="请输入验证码" onfocus="this.placeholder=''" onblur="this.placeholder='请输入验证码'"/>
+                  <div class="login-center-input-text">验证码</div>
+              </div>
+          </div>
+            <button type="button" onclick='login();' class="login-button" style='width:75%;background-color: #c00;'>
+                登录
+            </button>
+            <div style='float:left;border:0px solid red;margin-left:5px;font-size:12px;width:120px;height:40px;margin-top:30px;color:rgb(230, 92, 92)'>
+                ! 没有账号请先注册
+            </div>
+            <div onclick='pwdlogin();' style='margin-left:80%;border:0px solid red;font-size:12px;width:50px;height:40px;margin-top:30px;color:rgb(230, 92, 92)'>
+              密码登录
+            </div>
+            <div onclick='register();' style='cursor:pointer;color:#c00;border:0px solid red;width:80px;height:40px;margin-top:30px;float:right;font-size:15px;'>
+               注册
+            </div>
+            </form>
+        </div>
+        <div class="sk-rotating-plane"></div>
+<!-- </div> -->
+</form>
+
+<!-- scripts -->
+<script type="text/javascript" src="http://common.gdjshd.com/ydmb_ty/js/Adaptive.js"></script>
+<script src="/static/admin/login/js/particles.min.js"></script>
+<script src="/static/admin/login/js/app.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    function pwdlogin()
+    {
+      location.replace("{:url('index/login')}");
+    }
+    /*获取验证码*/
+    var isPhone = 1;
+    function getCode(e){
+      checkPhone(); //验证手机号码
+      // $('#yanzheng').css({ "display": "none" });
+      if(isPhone){
+        $('#yanzheng').css({ "display": "none" });
+        var phone = $("#phone").val();
+        $.ajax({
+              type: "post",
+              url: "Verify",
+              data: {
+                  'id': phone
+              }
+        })
+        resetCode(); //倒计时
+      }else{
+        $('#phone').focus();
+      }
+      
+    }
+    //验证手机号码
+    function checkPhone(){
+      var phone = $('#phone').val();
+      var pattern = /^1[0-9]{10}$/;
+      isPhone = 1;
+      if(phone == '') {
+        alert('请输入手机号码');
+        isPhone = 0;
+        return;
+      }
+      if(!pattern.test(phone)){
+        alert('请输入正确的手机号码');
+        isPhone = 0;
+        return;
+      }
+    }
+    //倒计时
+    function resetCode(){
+      $('#J_getCode').hide();
+      $('#J_second').html('60');
+      $('#J_resetCode').show();
+      var second = 60;
+      var timer = null;
+      timer = setInterval(function(){
+        second -= 1;
+        if(second >0 ){
+          $('#J_second').html(second);
+        }else{
+          clearInterval(timer);
+          $('#J_getCode').show();
+          $('#J_resetCode').hide();
+          $('#yanzheng').css({ "display": "inline" });
+        }
+      },1000);
+    }
+    // $("#yanzheng").click(function(){
+    //    // alert('aaa');
+    //    var phone = $("#phone").val();
+    //    $.ajax({
+    //         type: "post",
+    //         url: "Verify",
+    //         data: {
+    //             'id': phone
+    //         }
+    //    })
+    // })
+    function login()
+    {
+      // {:url('index/index/is_login')};
+      var phone = $("#phone").val();  
+        var code = $("#code").val();
+        // console.log(password);die;
+        // console.log(formData);
+        //serialize() 方法通过序列化表单值，创建 URL 编码文本字符串,这个是jquery提供的方法  
+        $.ajax({  
+            type:"post",  
+            url:"{:url('index/is_note')}",  
+            data: {
+                'phone': phone,
+                'code':code
+            },
+            async:true,
+            success:function(res){
+              if(res.code == 1)
+              {
+                alert('请输入手机号！');
+              }
+              if(res.code == 2)
+              {
+                alert('请输入验证码！');
+              }
+              if(res.code == 3)
+              {
+                location.replace("{:url('index/index')}");
+              }
+              if(res.code == 4)
+              {
+                alert('验证码错误！');
+              }
+              if(res.code == 5)
+              {
+                alert('该手机号未注册，请注册后登录');
+              }
+            }
+        });  
+    }
+    function register()
+    {
+        location.replace("register");
+    }
+    // function hasClass(elem, cls) {
+    //   cls = cls || '';
+    //   if (cls.replace(/\s/g, '').length == 0) return false; //当cls没有参数时，返回false
+    //   return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
+    // }
+     
+    // function addClass(ele, cls) {
+    //   if (!hasClass(ele, cls)) {
+    //     ele.className = ele.className == '' ? cls : ele.className + ' ' + cls;
+    //   }
+    // }
+     
+    // function removeClass(ele, cls) {
+    //   if (hasClass(ele, cls)) {
+    //     var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
+    //     while (newClass.indexOf(' ' + cls + ' ') >= 0) {
+    //       newClass = newClass.replace(' ' + cls + ' ', ' ');
+    //     }
+    //     ele.className = newClass.replace(/^\s+|\s+$/g, '');
+    //   }
+    // }
+    //     document.querySelector(".login-button").onclick = function(){
+    //             addClass(document.querySelector(".login"), "active")
+    //             setTimeout(function(){
+    //                 addClass(document.querySelector(".sk-rotating-plane"), "active")
+    //                 document.querySelector(".login").style.display = "none"
+    //             },800)
+              
+    //     }
+</script>
+<style>
+
+</style>
+</body>
+</html>

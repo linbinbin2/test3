@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <title>忆寻-admin</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <css href="/static/css/admin/bootstrap.min.css"/>
+    <css href="/static/css/admin/font-awesome.min93e3.css"/>
+    <css href="/static/css/admin/animate.min.css"/>
+    <css href="/static/css/admin/style.min.css"/>
+    <css href="/static/css/admin/login.min.css"/>
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+    <script>
+        if(window.top!==window.self){window.top.location=window.location};
+    </script>
+
+</head>
+
+<body class="signin">
+    <div class="signinpanel">
+        <div class="row">
+            <div class="col-sm-7"></div>
+            <div class="col-sm-5">
+                <form id="form_login" method="post"  onsubmit="return false;">
+                    <h4 class="text-center text-navy">yx-admin|后台管理系统</h4>
+                    <p id="notice-msg" style="color:red;text-align:center;"></p>
+                    <input type="text" name="user_login" class="form-control uname" placeholder="用户名" />
+                    <input type="password" name="user_pass" class="form-control pword m-b" placeholder="密码"/>
+                    <div class="col-xs-7 form_vertify">
+                        <input type="text" name="vertify" id="vertify" class="form-control vertify m-b">
+                    </div>
+                    <div class="col-xs-5 form_vertify_img">
+                        <img src="{:url('admin/index/vertify')}" alt="验证码" id="form_vertify_img" class="form-control m-b" onclick="refreshVertify();" >
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block submit-btn" onclick="login_submit_btn();">登录</button>
+                </form>
+            </div>
+        </div>
+        <div class="signup-footer">
+            <div class="text-center">
+                &copy; 2020 All Rights Reserved. yx-admin
+            </div>
+        </div>
+    </div>
+    <js href="/static/js/admin/jquery.min.js"/>
+</body>
+</html>
+<script type="text/javascript">
+    
+function login_submit_btn() {
+    
+    if($.trim($("input[name=user_login]").val())=='') {
+        
+        $("#notice-msg").text('请输入用户名');
+
+        return false;
+    }
+    
+    if($.trim($("input[name=user_pass]").val())=='') {
+        
+        $("#notice-msg").text('请输入密码');
+
+        return false;
+    }
+   
+    if($.trim($("input[name=vertify]").val())=='') {
+        
+        $("#notice-msg").text('请输入验证码');
+
+        return false;
+    }
+
+
+
+   var data = $("#form_login").serializeArray();
+   
+   $.post("{:url('admin/Index/login')}",data,function(data){
+        
+        if(data.code==1) {
+
+            window.location.href = data.jumpUrl;
+
+        }else{
+            
+            $("#notice-msg").text(data.msg);
+            
+            refreshVertify();
+        }
+
+   },'json');    
+
+}
+
+
+function refreshVertify() {
+    var src =  $("#form_vertify_img").attr("src"); 
+
+     $("#form_vertify_img").attr("src",src+"?v="+Math.random()); 
+}
+</script>

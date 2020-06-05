@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>忆寻-admin</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <css href="/static/css/admin/bootstrap.min14ed.css" />
+    <css href="/static/css/admin/font-awesome.min93e3.css" />
+    <css href="/static/css/admin/animate.min.css" />
+    <css href="/static/css/admin/plugins/summernote/new_sumnote.css"/>
+    <css href="/static/css/admin/plugins/summernote/summernote-bs3.css"/>
+    <css href="/static/css/admin/plugins/chosen/chosen.css"/>
+    <css href="/static/css/admin/plugins/datapicker/datepicker3.css"/>
+    <css href="/static/css/admin/plugins/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css"/>
+    <css href="/static/css/admin/style.min862f.css"/>
+    <link href="/static/css/admin/admincommon.css?v=20181116" rel='stylesheet' type='text/css' />
+</head>
+<style type="text/css">
+    .chosen-container-multi{margin-left:16px;}
+</style>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <form id="article_form" class="form-horizontal" onsubmit="return false;">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">文章标题</label>
+                        <div class="col-sm-6">
+                            <input type="text" name="article_title" value="{$article['article_title'] | default=''}" class="form-control">
+                        </div>
+                        
+                        <label class="col-sm-2 control-label">发布时间：</span></label>
+                        <div class="input-group date col-sm-3">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input type="text" class="form-control" value="{$article['article_add_time']|default= date('Y-m-d')}" id="article_add_time" name="article_add_time">
+                        </div>
+                    
+                    </div>
+
+                    <div class="hr-line-dashed" style="border:0.5px dashed #bfbaba;"></div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">所属分类：</span></label>
+                        <div class="input-group col-sm-5">
+                            <select data-placeholder="选择所属分类" class="chosen-select" multiple style="width:350px;" tabindex="4">
+                                <volist name='category'  id='parent'>
+                                    <optgroup label="{$parent['parent_name']}">
+                                        <volist name="$parent['children']" id="child">
+                                            <if condition="in_array($child['menu_id'],$article_category)">
+                                                <option  value="{$child['menu_id']}" hassubinfo="true" selected>{$child['menu_name']}</option>
+                                            <else/>
+                                                <option  value="{$child['menu_id']}" hassubinfo="true">{$child['menu_name']}</option>
+                                            </if>
+                                        </volist>
+                                    </optgroup>
+                                </volist>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-1 control-label">文章封面：</label>
+                        <div class="col-sm-2">
+                            <input type="file" id="article_poster" name="file"  value="" class="form-control input-file" onchange="getImgData(this);">
+                            <input type="hidden" id="hide_article_poster" name="hide_article_poster"  value="{$article['article_poster'] | default=''}" class="form-control input-file">
+                        </div>
+                    </div>
+                     <div class="form-group">
+                            <label class="col-sm-1 control-label">预览图片</label>
+                            <div class="" id="temp_picture_wrap" style="position:relative;">
+                                <if condition="$article['article_poster']">
+                                   <img src="{$article['article_poster']}" id="temp_picture" width="240" height="250" style="margin-top:15px;" /> 
+
+                                    <a class='del_temp_picture' style='position:absolute;bottom:0px;margin-left:10px;'>删除</a>
+                                </if>
+                            </div>
+                        </div>
+                    <div class="hr-line-dashed" style="border:0.5px dashed #bfbaba;"></div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="ibox float-e-margins">
+                        <div id="summernote_box" class="ibox-content no-padding">
+                            <div class ="summernote">
+                                {$article['article_content'] | default = ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-2 col-sm-offset-5">
+                    <div class="radio radio-success radio-inline">
+                        <input type="radio" id="inlineRadio1" value="0" name="article_status" <if condition="$article['article_status'] eq 0">checked</if>>
+                        <label for="inlineRadio1">发表</label>
+                    </div>
+                    <div class="radio radio-inline radio-danger">
+                        <input type="radio" id="inlineRadio2" value="2" name="article_status" <if condition="$article['article_status'] eq 2">checked</if>>
+                        <label for="inlineRadio2">草稿</label>
+                    </div>
+                    <input type="hidden" id="article_id" name="article_id" value="{$article['article_id'] | default = ''}" />
+                    <input type="hidden" id="handle_type"  name="handle_type"  value="{$type}" />
+                    <button class="btn btn-primary" type="submit" onclick="publishArticleSubmit();">保存内容</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <js href="/static/js/admin/jquery.min.js"/>
+    <js href="/static/js/admin/bootstrap.min.js"/>
+    <js href="/static/js/admin/content.min.js"/>
+    <js href="/static/js/admin/plugins/chosen/chosen.jquery.js"/>
+    <js href="/static/js/admin/plugins/summernote/new_sumnote.js"/>
+    <js href="/static/js/admin/plugins/summernote/summernote-zh-CN.js"/>
+    <js href="/static/js/admin/plugins/layui/layer/layer.js"/>
+    <js href="/static/js/admin/plugins/datapicker/bootstrap-datepicker.js"/>
+    <script>
+        $(document).ready(function(){
+
+            $("#temp_picture_wrap").on("click",'.del_temp_picture',function(){
+                $("#article_poster").val('');
+                $("#hide_article_poster").val('');
+                $("#temp_picture_wrap").empty();
+            });
+
+            $('.summernote').summernote({
+                lang:"zh-CN",
+                height:'300px',
+                callbacks: {
+                    onImageUpload: function(files) {
+                        var formData = new FormData();
+                        formData.append('file',files[0]);
+                        $.ajax({
+                            url : "{:url('admin/Upload/checkUploadFileInfo')}?isupload=2&folder=article",//后台文件上传接口
+                            type : 'post',
+                            data : formData,
+                            processData : false,
+                            contentType : false,
+                            success : function(data) {
+                                if(data.code==1){
+
+                                    $('.summernote').summernote('insertImage',data.data,'img');
+
+                                }else{
+
+                                    layer.msg(data.msg, {time:800, icon:2}); 
+                                }
+                            },
+                            dataType:'json'
+                        });
+                    }
+                }
+            });
+            
+            $("#article_add_time").datepicker();
+
+            var chosen = $(".chosen-select").chosen({
+                max_selected_options:10,
+                width: "50%"
+            });
+            chosen.bind("chosen:maxselected", function () { 
+                layer.msg('最多选10项', {time:800, icon:2});
+            });
+        });
+
+        function getImgData(obj){
+
+            var file =  obj.files[0];
+            var formData = new FormData();
+
+            var createObjectURL = function(blob){
+
+                return window[window.webkitURL ? 'webkitURL' : 'URL']['createObjectURL'](blob);
+            };
+
+            formData.append('file',file);
+
+            $.ajax({
+                url: "{:url('admin/Upload/checkUploadFileInfo')}?isupload=1",
+                type: 'post',
+                processData: false,  // 异步传输 formData 时要加上  processData: false  contentType: false 
+                contentType: false,  // 否则会报 Illegal invocation 非法调用错误
+                data: formData,
+                success: function (data) {
+                    
+                    if(data.code==1) {
+                        var filedata  = createObjectURL(file);
+                        var imgObject = new Image();
+                        imgObject.src = filedata;
+                        imgObject.id  = 'temp_picture';
+                        imgObject.width   = '240';
+                        imgObject.height  = '250';
+                        imgObject.style.marginTop  = '15px';
+
+                        $('#temp_picture_wrap').html('').append(imgObject);
+                        $('#temp_picture_wrap').append("<a class='del_temp_picture' style='position:absolute;bottom:0px;margin-left:10px;'>删除</a>"); 
+
+                    }else{
+                        
+                        $("#article_poster").val('');
+                        $("#temp_picture_wrap").empty();
+                        layer.msg(data.msg, {time:800, icon:2}); 
+                    }
+                   
+                },
+                dataType:'json'
+            });
+           
+        }
+        
+
+        function publishArticleSubmit(){
+
+            if($.trim($("input[name='article_title']").val()) ==''){
+
+                layer.msg('请填写标题', {time:500, icon:2});
+
+                return false;
+            }
+
+            if(!$(".chosen-select").val()){
+
+                layer.msg('请选择所属分类', {time:500, icon:2});
+
+                return false;
+            }
+
+            if($.trim($(".summernote").summernote('code')) ==''){
+
+                layer.msg('请填写内容', {time:500, icon:2});
+
+                return false;
+            }
+            
+            var formData = new FormData(document.getElementById('article_form'));
+            formData.append('article_content',$(".summernote").summernote('code'));
+            formData.append('article_category',$(".chosen-select").val().join(','));
+            
+            var url = '';
+            if($("#handle_type").val()=='add') {
+
+                url = "{:url('admin/Article/addArticle')}";
+
+            }else if($("#handle_type").val()=='update'){
+
+                url = "{:url('admin/Article/updateArticle')}";
+            }
+
+            $.ajax({
+                url: url,
+                type: 'post',
+                processData: false,  // 异步传输 formData 时要加上  processData: false  contentType: false 
+                contentType: false,  // 否则会报 Illegal invocation 非法调用错误
+                data: formData,
+                success: function (data) {
+                    
+                    if(data.code==1) {
+                        
+                        layer.msg(data.msg, {time:500, icon:6});
+
+                    }else{
+                        
+                        layer.msg(data.msg, {time:500, icon:5});
+                    }
+                },
+                dataType:'json'
+            });
+        }
+    </script>
+</html>

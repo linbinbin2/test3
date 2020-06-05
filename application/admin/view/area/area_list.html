@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>忆寻-admin</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+    <css href="/static/css/admin/bootstrap.min14ed.css" />
+    <css href="/static/css/admin/font-awesome.min93e3.css" />
+    <css href="/static/css/admin/plugins/dataTables/dataTables.bootstrap.css">
+        <css href="/static/css/admin/animate.min.css" />
+        <css href="/static/css/admin/style.min862f.css"/>
+        <link href="/static/css/admin/admincommon.css?v=20180820" rel='stylesheet' type='text/css' />
+        </head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>省份列表</h5>
+                    <if condition="check_auth('admin/Article/addArticle')">
+                        <button id="toggle_modal" class="btn btn-primary btn-circle" type="button" style="margin-bottom:0px;margin-left:10px;position:relative;top:-5px;" title="添加文章">
+                            <i class="fa fa-edit"></i>+
+                        </button>
+                    </if>
+                    <div class="ibox-tools">
+                        <a href="javascript:location.replace(location.href);" class="btn btn-primary btn-circle" type="button" style="margin-bottom:0px;margin-right:10px;position:relative;top:-5px;" title="刷新">
+                            <i class="fa fa-refresh"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <form action="" method="post">
+                        <div class="form-group col-sm-3" style="padding-left:0px;">
+                            <input type="text" id="district" name="district" value="{$district}" placeholder="输入城市" class="form-control" onkeyup="searchTitle(this);" />
+                        </div>
+                        <button type="submit" class="btn btn-xm btn-primary">搜索</button>
+                    </form>
+                    <table id="mytable" class="table table-striped table-bordered table-hover dataTables-example">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>城市</th>
+                            <th>操作</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <volist name="data" id="vo">
+                            <tr class="gradeX" id="article-{$vo['article_id']}">
+                                <td>{$vo['district_id']}</td>
+                                <td>{$vo['district']}</td>
+                                <td class="center" align="center">
+                                    <div class="btn-group">
+                                        <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" aria-expanded="false">操作 <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu">
+                                            <if condition="check_auth('admin/Article/updateArticle')">
+                                                <li><a href="javascript:;" data-id="{$vo['article_id']}" class="font-bold edit-article">修改</a>
+                                                </li>
+                                            </if>
+                                            <if condition="check_auth('admin/Article/delArticle')">
+                                                <li data-id="{$vo['article_id']}" class="font-bold del-article"><a href="javascript:;">删除</a></li>
+                                            </if>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                        </volist>
+                        </tbody>
+                        <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>城市</th>
+                            <th>操作</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                    {$data->render()}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<js href="/static/js/admin/jquery.min.js"/>
+<js href="/static/js/admin/bootstrap.min.js"/>
+<js href="/static/js/admin/content.min.js"/>
+<js href="/static/js/admin/plugins/layui/layer/layer.js"/>
+<script type="text/javascript" src="/static/js/admin/admincommon.js?v=20180820"></script>
+
+<script>
+    $(document).ready(function(){
+
+        $(".ibox-content").on('click','.edit-article',function(){
+
+            var addIndex = layer.open({
+                title:'发布文章',
+                offset: ['120px', '220px'],
+                isOutAnim: true ,
+                type: 2,
+                content:"{:url('admin/Article/publishArticle')}?type=update&article_id="+$(this).data('id'),
+                area: ['800px','400px'],
+                maxmin: true
+            });
+
+            layer.full(addIndex);
+        })
+
+        $(".ibox-content").on('click','.del-article',function(){
+            var article_id = $(this).data("id");
+            layer.confirm("你确定要删除ID为【"+article_id+"】的文章吗？", {
+
+                btn: ['确定','取消'] //按钮
+
+            }, function(){
+
+                $.post("{:url('admin/Article/delArticle')}",{article_id:article_id},function(data){
+
+                    if(data.code==1) {
+
+                        layer.msg(data.msg, {time:500, icon:1});
+
+                        $("#article-"+article_id).remove();
+
+                    }else{
+
+                        layer.msg(data.msg, {time:500, icon:2});
+
+                    }
+
+                },'json');
+
+            });
+        });
+
+        $("#toggle_modal").on('click',function(){
+
+            var addIndex = layer.open({
+                title:'发布文章',
+                offset: ['120px', '220px'],
+                isOutAnim: true ,
+                type: 2,
+                content:"{:url('admin/Article/publishArticle')}?type=add",
+                area: ['800px','400px'],
+                maxmin: true
+            });
+
+            layer.full(addIndex);
+
+        });
+    });
+
+    function searchTitle(obj) {
+        var district = $.trim($(obj).val());
+        if(district.length<=0) {
+            window.location.replace(location.href);
+        }
+    }
+
+</script>
+
+</body>
+</html>

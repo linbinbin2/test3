@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>忆寻-admin</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+    <css href="/static/css/admin/bootstrap.min14ed.css" />
+    <css href="/static/css/admin/font-awesome.min93e3.css" />
+    <css href="/static/css/admin/plugins/dataTables/dataTables.bootstrap.css">
+        <css href="/static/css/admin/animate.min.css" />
+        <css href="/static/css/admin/style.min862f.css"/>
+        <link href="/static/css/admin/admincommon.css?v=20180712" rel='stylesheet' type='text/css' />
+        </head>
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>数据列表</h5>
+                    
+                    <form action="{:url('admin/Users/Edit2User')}" method="post" enctype="multipart/form-data">
+                      
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <volist name="user" id="vo">
+                                <input type="hidden" name='id' value="{$vo.id}">
+                                <input type="hidden" name='image' value="{$vo.images}">
+                            <tr>
+                                <td>用户名称：</td>
+                                <td>{$vo['username']}</td>
+                                <td><input type="text" name='username' value="{$vo['username']}" onfocus="clearContent(event)"/></td>
+                            </tr>
+                            <!-- <tr>
+                                <td>用户头像：</td>
+                                <td><img src="{$vo['topimg']}"></td>
+                                <td>
+                                    <input type="file" name='topimg'></td>
+                            </tr> -->
+                            <tr>
+                                <td>用户手机号：</td>
+                                <td>{$vo['userphone']}</td>
+                                <td><input type="text" name='userphone' value="{$vo['userphone']}" onfocus="clearContent(event)"/></td>
+                            </tr>
+                            <tr>
+                                <td>类型：</td>
+                                <td>{$usertype}</td>
+                                <td>
+                                   <select name="typea" id="typea" style="width:25%;background-color:#fff;height:35px;">
+                                        <option value="{$vartype[0]}">{$mtype1}</option>
+                                        <volist name="typea" id="voo">
+                                        <option value="{$voo['id']}">{$voo['ttype']}</option>
+                                        </volist>
+                                     </select>
+                                    <select name="typeb" id="typeb" style="width:25%;background-color:#fff;height:35px;">
+                                        <option value="{$vartype[1]}">{$mtype2}</option>
+                                        <volist name="typeb" id="voo">
+                                        <option value="{$voo['id']}">{$voo['ttype']}</option>
+                                        </volist>
+                                    </select>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>商品标题：</td>
+                                <td>{$vo['title']}</td>
+                                <td><input type="text" name='title' value="{$vo['title']}" onfocus="clearContent(event)"/></td>
+                            </tr>
+                            <tr>
+                                <td>商品简介</td>
+                                <td>{$vo['contents']}</td>
+                                <td><textarea name="contents">{$vo['contents']}</textarea></td>
+                            </tr>
+                            <!-- <tr>
+                                <td>商品数量</td>
+                                <td>{$vo['number']}</td>
+                                <td><input type="text" name='number' value="{$vo['number']}" onfocus="clearContent(event)"/></td>
+                            </tr> -->
+                            <tr>
+                                <td>商品图片</td>
+                                <td><img src="{$vo['images']}"></td>
+                                <td>
+                                    <font color='red'>提示：不上传为原来图片</font><br><br>
+                                    <input type="file" name='images'></td>
+                            </tr>
+                            <tr>
+                                <td>用户状态：</td>
+                                <td>
+                                    <if condition="$vo['status'] eq 1">
+                                        出售者
+                                        <else/>购买者
+                                    </if>
+                                </td>
+                                <td>
+                                    <select name="status">
+                                    <if condition="$vo['status'] eq 1">
+                                        <option value="1">出售者</option>
+                                        <option value='2'>购买者</option>
+                                    <else/>
+                                        <option value="2">购买者</option>
+                                        <option value='1'>出售者</option>
+                                    </if>
+                                    
+                                    
+                                </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>用户地址：</td>
+                                <td>{$vo['address']}</td>
+                                <td>
+                                    <select name="sheng" id="sheng" style="width:25%;background-color:#fff;height:35px;">
+                                        <option value="{$msheng_id}">{$var[0]}</option>
+                                        <volist name="sheng" id="vo">
+                                        <option value="{$vo['district_id']}">{$vo['district']}</option>
+                                        </volist>
+                                    </select>
+                                    <select name="shi" id="shi" style="width:25%;background-color:#fff;height:35px;">
+                                        <option value="{$mshi_id}">{$var[1]}</option>
+                                        <volist name="shi" id="vo">
+                                        <option value="{$vo['district_id']}">{$vo['district']}</option>
+                                        </volist>
+                                    </select>                    
+                                    <select name="qu" id="qu" style="width:25%;background-color:#fff;height:35px;">
+                                        <option value="{$mqu_id}">{$var[2]}</option>
+                                        <volist name="qu" id="vo">
+                                        <option value="{$vo['district_id']}">{$vo['district']}</option>
+                                        </volist>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan='3' text-align='center'>
+                                    <input type="submit" value="提交">
+                                    <input type="reset" value="取消">
+                                </td>
+                            </tr>
+                        </volist>
+                    </table>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<js href="/static/js/admin/jquery.min.js"/>
+<js href="/static/js/admin/bootstrap.min.js"/>
+<js href="/static/js/admin/plugins/dataTables/jquery.dataTables.js"/>
+<js href="/static/js/admin/plugins/dataTables/dataTables.bootstrap.js"/>
+<js href="/static/js/admin/content.min.js"/>
+<js href="/static/js/admin/plugins/layui/layer/layer.js"/>
+<script type="text/javascript" src="/static/js/admin/admincommon.js?v=20180712"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script>
+//点击事件
+        function clearContent(event) {
+        event.target.value=""
+        }
+
+
+        //地区联动
+    $('#sheng').change(function(id){
+         var aa = $('#sheng').val();
+        // alert(aa);
+         $.ajax({
+            type: "post",
+            url: "{:url('admin/Users/checkregion')}",
+            data: {
+                    'id': aa
+                },
+                async:true,
+                success:function(r){
+                   // alert(r);
+                    $("#shi").html(r);
+                }
+         })
+    })
+    $('#shi').change(function(){
+        var shi = $("#shi").val();
+        //alert(shi);
+        $.ajax({
+            type: "post",
+            url: "{:url('admin/Users/checkregion')}",
+            data: {
+                'id': shi
+            },
+            async:true,
+            success:function(r){
+                $("#qu").html(r);
+            }
+        })
+    })
+
+
+    //类型联动
+    $('#typea').change(function(id){
+         var typea = $('#typea').val();
+         $.ajax({
+            type: "post",
+            url: "{:url('admin/Users/checktype')}",
+            data: {
+                    'id': typea
+                },
+                async:true,
+                success:function(r){
+                    //alert(r);
+                    $("#typeb").html(r);
+                }
+         })
+
+    })
+</script>
+</body>
+</html>

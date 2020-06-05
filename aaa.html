@@ -1,0 +1,21 @@
+<html>
+    <head></head>
+    <body>
+        <?php
+            require "./php-sdk-7.2.6/autoload.php";
+            use Qiniu\Auth;
+            $bucket="存储空间";
+            $accesskey="your accesskey";
+            $secretkey="your secretkey";
+            $auth=new Auth($accesskey,$secretkey);
+            $uptoken=$auth->uploadToken($bucket);
+            echo $uptoken;
+        ?>
+
+        <form method="post" action="http://upload.qiniup.com" enctype="multipart/form-data">
+           <input name="token" type="hidden" value="<?php echo $uptoken; ?>">
+           <input name="file" type="file">
+           <input type="submit" value="上传">
+        </form>
+    </body>
+</html>

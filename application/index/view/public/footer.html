@@ -1,0 +1,36 @@
+<footer class="m-grid__item m-footer " style="background:#fff8e6;">
+	<div class="m-container m-container--responsive m-container--xxl m-container--full-height m-page__container">
+		<div class="m-footer__wrapper">
+			<div class="m-stack m-stack--flex-tablet-and-mobile m-stack--ver m-stack--desktop">
+				<div class="m-stack__item m-stack__item--left m-stack__item--middle m-stack__item--last">
+                                        &nbsp;<span class="m-footer__copyright">
+						备案号<a href="http://www.beian.miit.gov.cn">&nbsp;粤ICP备18146289&nbsp;</a>
+					</span>
+
+                                        &nbsp;&nbsp;&nbsp;&nbsp;<span class="m-footer__copyright">
+						邮箱：<a href="javascript:;">&nbsp;1226740471@qq.com&nbsp;</a>
+				</div>
+				<div class="m-stack__item m-stack__item--right m-stack__item--middle m-stack__item--first">
+					<span class="m-footer__copyright">技术成就梦想！！！</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+<load file="/static/js/index/jquery-1.8.2.min.js"/>
+<load file="/static/js/index/scripts.bundle.min.js"/>
+<load file="/static/js/admin/plugins/ajaxpagination/ajaxpagination.js"/>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".m-menu__nav > li").hover(function(){
+            
+            $(this).addClass("m-menu__item--hover  m-menu__item--open-dropdown").siblings().removeClass("m-menu__item--hover  m-menu__item--open-dropdown");
+			$(this).children('div').css("display",'block').parent().siblings().children("div").css("display",'none');
+			
+		},function(){
+			$(this).removeClass("m-menu__item--hover  m-menu__item--open-dropdown").children('div').css("display",'none');
+		});
+
+		$(".m-menu__nav > li").click(function(){$(this).children('div').css("display",'none');})
+	})
+</script>

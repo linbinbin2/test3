@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>交易平台</title>
+    <meta name="keywords" content="交易平台 ">
+    <meta name="description" content="交易平台">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width" />
+    <!-- 移动端web自适应 -->
+    <script type="text/javascript" src="http://common.gdjshd.com/ydmb_ty/js/Adaptive.js"></script>
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="stylesheet" href="/css/Jingle.css">
+
+ <style>
+       
+        select{
+            width:30%;
+            background-color:#fff;
+            height:35px;
+            font-size:12px;
+        }
+        #hphone input{
+            font-size:12px;
+            background-color:#c00;
+            border:1px solid #c00;
+            color:#fff;
+            margin-left:2px;
+        }
+       .active {
+            overflow-x: hidden;
+            overflow-y: auto;
+            position: absolute;
+        }
+    </style>
+
+</head>
+<body>
+<div id="section_container">
+    <!-- 页面容器 -->
+    <header style='position:fixed'>
+        <nav class="left" style="float:left;padding-top:9px">
+            <a href='/'><img src='/static/admin/login/img/return.png' width='24' height='24'></a>
+        </nav>
+        <nav style="text-align: center;width:100%;">我的
+         <!-- <span onclick='myin()' style="margin:10%">我的</span></nav> -->
+        <!-- <nav class="right">
+            <span onclick='releace()'>我要发布</span>
+           
+        </nav> -->
+        
+    </header>
+    <!-- <section id="index_section" data-btn="index" title="交易网" class="active"> -->
+ <div id="fix_js" class="fix_css">
+    <!-- <header> -->
+        <!-- <nav class="left">
+           <a href="/">首页</a>
+        </nav> -->
+        <!-- <nav style="text-align: center;width:110%;">我的订单</nav> -->
+        <!-- <nav class="right">
+            <a onclick="releace();">我要发布</a>
+        </nav> -->
+        
+    <!-- </header> -->
+</div>
+
+        <article id="article_ind" class="active">
+            <!-- <div style='border:1px olid red;width:100%;height:70px;font-size:16px'> -->
+                <!-- <div style='border:0px solid red;width:52px;height:52px;margin-left:8px;margin-top:16px;float:left'>
+                    <img src='/static/admin/login/img/mine.png' width='50px' height='50px'>
+                </div> -->
+                <div style='color:#666;border:0px solid red;width:96%;margin-right:2%;height:32px;margin-top:16px;margin-left:2%;font-size:16px;'>
+                    <img src='/static/admin/login/img/mine1.png' width='24px' height='24px'>
+                    <?php echo $users['0']['user_name']?>
+                    <hr style='border:0.5px solid #f0f0f0;margin-top:8px;'></hr>
+                </div>
+                <div style='color:#666;border:0px solid red;width:96%;margin-right:2%;height:40px;margin-top:8px;margin-left:2%;font-size:16px;'>
+                    <img src='/static/admin/login/img/mine2.png' width='24px' height='24px'>
+                    <?php echo $users['0']['phone']?>
+                    <hr style='border:0.5px solid #f0f0f0;margin-top:8px;'></hr>
+                </div>
+            <!-- </div> -->
+            <div style='border:0px solid black;width:100%;height:32px;font-size:14px;background-color:#f0f0f0;padding-top:8px;padding-left:2%;'>
+                我的订单
+            </div>
+            <div>
+              <!-- <div> -->
+                <ul class="list list-text-single">
+                    {volist name="user" id="vo"}
+                    <div>
+                    	<div style='border:0px solid red;width:100%;height:124px;float:left;margin-left:4px'>
+
+                            <!-- <dd>
+                                <dd style="float:left;border:1px solid white;padding-top:20px;">
+                                     <span><img  style="border-radius:50%;overflow:hidden;" width='40px' height='40px' src="{$vo['topimg']}"></span> -->
+                                <!-- </dd>
+                            </dd> --> 
+                            <div style="margin-left:0.5rem;padding-bottom:0.1rem;padding-top:0.3rem;">
+                                <!-- <dl style="font-size:15px;padding-top:8px;">{$vo.username}</dl> -->
+                                <dl style="color:#666;font-size:12px;">发布时间：{$vo.create_time}</dl>
+                            </div>
+
+                        	<div style="float:left;margin-right:10px;">
+                                <img width="80" height="80" src="{$vo['images']}">
+                            </div>
+                            <strong style="font-weight:bold;font-size: 15px;">
+                            	<div style='float:left;border:0px solid red;height:28px;padding-top:5px'>
+                                  	{if $vo.status==1}[出售]
+                                	{else}[购买]{/if}
+                                	{$vo.title}
+                                </div>
+                              	<div style='border:0px solid red;height:28px;width:0px;float:right;margin-right:140px;padding-bottom:20px'>
+                                  {$vo['userphone']}
+                                  <!-- <span onclick='pay(<?php echo $vo['id']?>)' id="hphone">
+                                      <img width='30px' height='30px'src="/static/admin/login/img/phone2.png"/>
+                                  </span> -->
+                              	</div>
+                            </strong>
+                            <span style="font-size: 14px;color:#666;font-family:Microsoft YaHei;margin-top:5px;overflow:hidden; display:-webkit-box; -webkit-line-clamp: 2;overflow: hidden;text-overflow: ellipsis;white-space: nowrap; ">
+                                {$vo.username}
+                            </span>
+                            <!-- <div> -->
+                                <div style='font-size:14px;color:#666;font-family:Microsoft YaHei;border:0px solid red'>
+                                    {$vo['ttype']}
+                                </div>
+                                <div style='font-size:14px;color:#666;font-family:Microsoft YaHei;border:0px solid red;width:99%;'>
+                                    {$vo.address}
+                                </div>
+                            <!-- </div> -->
+                            
+                            
+                                
+                        </div>
+                        
+                        
+                    </div><br><div style="margin-bottom:8px;font-size:14px;color:#666;font-family:Microsoft YaHei;margin-top:5px;border:0px solid red;width:auto;height:auto;margin-left:4px">
+                            <span style="font-weight:bold;"></span>
+                            {$vo.contents}
+                        </div>
+                    <hr style='border:0.5px solid #f0f0f0;'></hr>
+                    {/volist}
+                </ul>
+            <!-- </div> -->
+            </div>
+        </article>
+<a href="#" id="gotop"></a>
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<!-- custom -->
+<script type="text/javascript">
+
+    //登录注册表单
+    function pay(id)
+    {
+        // alert($phone);
+        var session = '{$Request.session.admin}';
+        // console.log(session);
+        if(session == '')
+        {
+            // console.log(11);
+            location.replace("index.php{:url('index/login')}");
+        }else{
+            // console.log(22);
+            // location.replace("{:url('index/order')}");
+            $.ajax({
+            type: "post",
+            url: "{:url('index/order')}",
+            data: {
+                    'user_session': session,
+                    'id':id
+                },
+                async:true,
+                success:function(res){
+                    if (res == 1) {
+                        location.replace("{:url('index/wxpay')}");
+                    }else{
+                        console.log('生成订单错误')
+                    }
+                }
+         })
+        }
+    };
+//发布、我的 登录注册表单
+function myin(){
+    var session = '{$Request.session.admin}';
+    if(session == ''){
+        alert('不存在用户');
+        location.replace("{:url('index/login')}");
+    }else{
+        //alert('cunzai ');
+        location.replace("{:url('index/mine')}");
+    }
+       
+}
+function releace(){
+    var session = '{$Request.session.admin}';
+    if(session == ''){
+        alert('不存在用户');
+        location.replace("{:url('index/login')}");
+    }else{
+        location.replace("{:url('index/add')}");
+    }
+}
+
+
+
+    //地区联动
+    $('#sheng').change(function(id){
+         var aa = $('#sheng').val();
+         $.ajax({
+            type: "post",
+            url: "index.php{:url('index/checkregion')}",
+            data: {
+                    'id': aa
+                },
+                async:true,
+                success:function(r){
+                    //alert(r);
+                    $("#shi").html(r);
+                }
+         })
+
+    })
+    $('#shi').change(function(){
+        var shi = $("#shi").val();
+        //alert(shi);
+        $.ajax({
+            type: "post",
+            url: "index.php{:url('index/checkregion')}",
+            data: {
+                'id': shi
+            },
+            async:true,
+            success:function(r){
+                $("#qu").html(r);
+            }
+        })
+    })
+
+
+    //类型联动
+    $('#typea').change(function(id){
+         var typea = $('#typea').val();
+         $.ajax({
+            type: "post",
+            url: "index.php{:url('index/checktype')}",
+            data: {
+                    'id': typea
+                },
+                async:true,
+                success:function(r){
+                    //alert(r);
+                    $("#typeb").html(r);
+                }
+         })
+
+    })
+
+    function time(){
+
+        $(".ksttc").show();
+
+    }setInterval("time()",10000);
+
+</script>

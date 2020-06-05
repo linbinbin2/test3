@@ -1,0 +1,119 @@
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>微信支付</title>
+ <style type="text/css">
+ body{
+ font-family: "Microsoft YaHei";
+ }
+ .pay-box{
+ position: absolute;
+ top: 50%;
+ margin-top: -516px;
+ left: 50%;
+ margin-left: -320px;
+ }
+ .ico{
+ width: 240px;
+ height: 240px;
+ border-radius: 120px;
+ background: #3FB837;
+ color: #fff;
+ display: inline-block;
+ font-size: 160px;
+ line-height: 240px;
+ }
+ .txt{
+ font-size: 42px;
+ padding-top: 30px;
+ color: #333;
+ }
+ .val{
+ font-size: 80px;
+ font-weight: bold;
+ }
+ .pay{
+ width: 640px;
+ height: 100px;
+ margin-top: 100px;
+ padding: 20px;
+ border-radius: 10px;
+ font-size:42px;
+ color: #fff;
+ background: #07BF05;
+ border: 0px;
+ text-align: center;
+ }
+ a{
+ color: #fff;
+ background: transparent !important;
+ }
+ </style>
+</head>
+<body>
+ <div class="pay-box" style="text-align: center;">
+ <div class="ico">
+ ￥
+ </div>
+ <div class="txt">
+ 支付金额
+ </div>
+ <div class="val">
+ ￥<span>{$Request.session.money}</span> 
+
+ </div>
+ <button class="pay" onclick='btnpay("{$Request.session.order_sn}");'>确认支付</button>
+
+ </div>
+</body>
+</html>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script type="text/javascript">
+    function btnpay(data)
+    {
+        var ua = navigator.userAgent.toLowerCase();
+		if(ua.match(/MicroMessenger/i)=="micromessenger") {
+			alert("微信");
+		} else {
+			$.ajax({
+                type: "post",
+                url: "{:url('index/pay')}",
+                data: {
+                    'data': data
+                },
+                async:true,
+                success:function(res){
+                
+                    let wxdata = JSON.parse(res);
+                    location.replace(wxdata);
+                    //window.open(wxdata, "_blank");
+                }
+            })
+		}
+        
+        
+    };
+</script>
+<!-- <div class="ant-modal-header">
+    <div class="ant-modal-title" id="rcDialogTitle2">温馨提示</div>
+</div>
+<div class="ant-modal-body">
+    <div class="comp-wxpay">
+        <div class="comp-wxpay-order">
+            <p>您的审核编号为：【<span id="bianhao"></span>】请转交给管理员,本次应收费<span id="ysf"></span>元</p>
+            <p>添加群分享客服微信完成审核后即可发布</p>
+        </div>
+        <div class="ant-spin-nested-loading">
+            <div class="ant-spin-container">
+                <div class="comp-wxpay-qrcode">
+                    <div class="comp-wxpay-qrcode-content">
+                        
+                        <div class="comp-wxpay-qrcode-content-notice">请打开手机微信，扫一扫完成审核</div>
+                    </div>
+                    <div class="comp-wxpay-qrcode-tip"><img src="https://qiniu.staticfile.org/static/wxpay_tip-15e6830fc4b5e5dd5a664e98ca11e3b9.png"  >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

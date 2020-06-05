@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <title>忆寻-admin</title>
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+    <css href="/static/css/admin/bootstrap.min14ed.css" />
+	<css href="/static/css/admin/font-awesome.min93e3.css" />
+	<css href="/static/css/admin/plugins/dataTables/dataTables.bootstrap.css">
+	<css href="/static/css/admin/animate.min.css" />
+	<css href="/static/css/admin/style.min862f.css"/>
+    <link href="/static/css/admin/admincommon.css?v=20180712" rel='stylesheet' type='text/css' /> 
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>文章管理</h5>
+                        <!-- <if condition="check_auth('admin/Home/addUser')">
+                            <button id="toggle_modal"  class="btn btn-primary btn-circle" type="button" style="margin-bottom:0px;margin-left:10px;position:relative;top:-5px;" title="添加管理员">
+                                <a href="{:url('admin/Home/addcontent')}"><i class="fa fa-user-md"></i></a>+
+                            </button>
+                        </if> -->
+                        <div class="ibox-tools">
+                            <a href="javascript:location.replace(location.href);" class="btn btn-primary btn-circle" type="button" style="margin-bottom:0px;margin-right:10px;position:relative;top:-5px;" title="刷新">
+                                <i class="fa fa-refresh"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>文章内容</th>
+                                    <th>上传者</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <volist name="users" id="vo">
+                                    <tr class="gradeX" id="user-{$vo['id']}">
+                                        <td>{$vo['id']}</td>
+                                        <td>{$vo['content']}</td>
+                                        <td>{$vo['name']}</td>
+                                        
+                                        <td class="center" align="center">
+                                            <div class="btn-group">
+                                               <button data-toggle="dropdown" class="btn btn-primary btn-xs dropdown-toggle" aria-expanded="false">操作 <span class="caret"></span>
+                                                </button>
+                                                <ul class="dropdown-menu">
+                                                    <li><a href="{:url('admin/Home/EditContent')}?id={$vo['id']}" class="font-bold edit-user">修改</a></li>
+                                                    <!-- <li>
+                                                        <a href="javascript:if(confirm('确认删除吗？'))window.location='{:url('admin/Home/delUsercontent')}?id={$vo['id']}'">删除</a>
+                                                    </li> -->
+                                                </ul>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </volist>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>文章内容</th>
+                                    <th>上传者</th>
+                                    <th>操作</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                        {$users->render()}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <div id="user-modal-form" class="modal fade" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="user_form" action="" method="post" onsubmit="return false;">
+                    <div class="modal-header">
+                        <span class="refresh-btn" onclick="refresh_form('user_form');"><i class="fa fa-refresh"></i></span>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">添加管理员</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>登入名：</label>
+                                    <input type="text" placeholder="输入登入名" name="user_login" value="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label id="user_pass_tip">密码：</label>
+                                    <input type="password" placeholder="输入密码" name="user_pass" value="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>电话：</label>
+                                    <input type="text" placeholder="输入电话" name="user_phone" value="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <label>邮箱：</label>
+                                    <input type="text" placeholder="输入邮箱" name="user_email" value="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label id="confirm_pass_tip">确认密码：</label>
+                                    <input type="password" placeholder="确认密码" name="confirm_pass" value="" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>所属角色</label>
+                                    <select class="form-control m-b" name="user_role" id="user_role">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="hidden" id="user_id" name="user_id" value="" />
+                        <input type="hidden" id="handle_type"  name="handle_type"  value="add" />
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-primary" onclick="userSubmit();">确定</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div> -->
+    <js href="/static/js/admin/jquery.min.js"/>
+	<js href="/static/js/admin/bootstrap.min.js"/>
+	<js href="/static/js/admin/plugins/dataTables/jquery.dataTables.js"/>
+	<js href="/static/js/admin/plugins/dataTables/dataTables.bootstrap.js"/>
+	<js href="/static/js/admin/content.min.js"/>
+    <js href="/static/js/admin/plugins/layui/layer/layer.js"/>
+    <script type="text/javascript" src="/static/js/admin/admincommon.js?v=20180712"></script>
+</body>
+</html>
