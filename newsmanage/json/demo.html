@@ -1,0 +1,27 @@
+<html>
+	<head>
+		<title>json练习</title>
+		<meta charset='utf-8'>
+		<script>
+		//第一种json结构：定义json对象
+			var st1={'name':'lisi','sex':'男','age':18};
+		//alert(st1);
+		//	alert(st1.age);
+		for(a in st1)
+		{
+			//alert(st1[a]);
+		}
+		//第二种json结构：定义json对象数组
+		var st2=[
+							{'name':'zhang','age':18,'email':'zs@11'},
+							{'name':'lisi','age':19,'email':'ls@22'},
+							{'name':'wangwu','age':17,'email':'ww@33'}
+						];
+						//alert(st2[1].name);
+						for(var a=0;a<st2.length;a++)
+						{
+							alert(st2[a].age);
+						}
+		</script>
+	</head>
+</html>
